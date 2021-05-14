@@ -1,6 +1,8 @@
 package com.example.travelbook.model;
 
-public class Place {
+import java.io.Serializable;
+
+public class Place implements Serializable {
 
     public String name;
     public Double latitude;

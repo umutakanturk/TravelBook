@@ -42,6 +42,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     SQLiteDatabase database;
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intentToMain = new Intent(this,MainActivity.class);
+        startActivity(intentToMain);
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
@@ -87,6 +95,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }else  {
             //Sqlite data
+            mMap.clear();
+            Place place = (Place) intent.getSerializableExtra("place");
+            LatLng latLng = new LatLng(place.latitude,place.longitude);
+            String placeName = place.name;
+
+            mMap.addMarker(new MarkerOptions().position(latLng).title(placeName));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
         }
 
     }
@@ -109,7 +124,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastUserLocation,15));
                         }
                     }else {
-                        //Sqlite Data
+                        //Sqlite Data && intent data
+                        mMap.clear();
+                        Place place = (Place) intent.getSerializableExtra("place");
+                        LatLng latLng = new LatLng(place.latitude,place.longitude);
+                        String placeName = place.name;
+
+                        mMap.addMarker(new MarkerOptions().position(latLng).title(placeName));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
                     }
 
                 }
